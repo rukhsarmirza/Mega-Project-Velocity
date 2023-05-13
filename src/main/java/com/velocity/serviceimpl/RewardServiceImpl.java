@@ -16,5 +16,11 @@ public class RewardServiceImpl implements RewardService {
 		Reward reward = rewardRepository.findById(id);
 		return reward;
 	}
+	@Override
+	public Reward saveReward(Reward reward) {
+		Reward reward1=rewardRepository.save(reward);
+		return reward1;
+		
+	}
 
 }
