@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="user")
 public class User {
-	
+	 //user pojo class
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
