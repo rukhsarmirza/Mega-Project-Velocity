@@ -24,7 +24,7 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private RewardService rewardService;
-	
+	//it is a post mettohd
 	@PostMapping("/saverewards")
 	public ResponseEntity<User> saveUserReward(@RequestBody User user){
 		
