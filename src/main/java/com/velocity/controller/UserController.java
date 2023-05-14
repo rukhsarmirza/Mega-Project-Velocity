@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.service.DeleteOrderService;
@@ -80,5 +81,10 @@ public class UserController {
 
 		reimbursementService.deleteReimbursement(id);
 
+	}
+	@PostMapping("/saveReimbursement")
+	public ResponseEntity<Reimbursement> saveUserReimbursement(@RequestBody Reimbursement reimbursement ){
+		Reimbursement reimbursement1 = reimbursementService.saveReimbursement(reimbursement);
+		return ResponseEntity.ok().body(reimbursement1);
 	}
 }
