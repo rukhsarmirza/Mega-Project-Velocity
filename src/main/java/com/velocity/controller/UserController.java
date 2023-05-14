@@ -1,6 +1,7 @@
 package com.velocity.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -86,5 +88,15 @@ public class UserController {
 	public ResponseEntity<Reimbursement> saveUserReimbursement(@RequestBody Reimbursement reimbursement ){
 		Reimbursement reimbursement1 = reimbursementService.saveReimbursement(reimbursement);
 		return ResponseEntity.ok().body(reimbursement1);
+	}
+	@PutMapping("/updateReimbursement/{id}")
+	public Reimbursement updateReimbursementDetails(@RequestBody Reimbursement reimbursement) {
+		return reimbursementService.updateReimbursementDetails(reimbursement);
+	}
+	
+	@GetMapping("/getReimbursement/{id}")
+	public ResponseEntity<Optional<Reimbursement>> getReimbursementDetails(@PathVariable("id") Integer id){
+		    Optional<Reimbursement> reimbursement=reimbursementService.getReimbursementDetails(id);
+		    return ResponseEntity.ok().body(reimbursement);
 	}
 }
