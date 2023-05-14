@@ -29,6 +29,9 @@ public class UserController {
 	@Autowired
 	private DeleteOrderService deleteOrderService;
 
+
+
+
 	// it is a post mettohd
 	@PostMapping("/saverewards")
 	public ResponseEntity<User> saveUserReward(@RequestBody User user) {
@@ -71,4 +74,5 @@ public class UserController {
 		deleteOrderService.deleteOrder(id);
 
 	}
+	
 }
