@@ -1,10 +1,10 @@
 package com.velocity.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,41 +19,45 @@ import com.velocity.service.UserService;
 @RestController
 
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RewardService rewardService;
-	//it is a post mettohd
+
+	// it is a post mettohd
 	@PostMapping("/saverewards")
-	public ResponseEntity<User> saveUserReward(@RequestBody User user){
-		
-		User user1=userService.saveUser(user);
-		List<Reward> rewards=user.getRewardList();
-		
-		for(Reward reward : rewards) {
-			
+	public ResponseEntity<User> saveUserReward(@RequestBody User user) {
+
+		User user1 = userService.saveUser(user);
+		List<Reward> rewards = user.getRewardList();
+
+		for (Reward reward : rewards) {
+
 			reward.setUserId(user.getId());
 			rewardService.saveReward(reward);
 		}
-		
+
 		return ResponseEntity.ok().body(user1);
 	}
-	//its a controller class with get reward funtion
+
+	// its a controller class with get reward funtion
 	@GetMapping("/get/{id}")
-	public ResponseEntity<User>getUserReward(@PathVariable("id") Integer id) {
-		
+	public ResponseEntity<User> getUserReward(@PathVariable("id") Integer id) {
+
 		User user = userService.getUserdById(id);
 		List<Reward> rewards = user.getRewardList();
-		
-		for(Reward reward : rewards) {
+
+		for (Reward reward : rewards) {
 			reward.setUserId(user.getId());
 			rewardService.getRewardById(id);
 		}
 		return ResponseEntity.ok().body(user);
-		
 
 	}
-
-	
+    // this method is for delete operation
+	@DeleteMapping("/delete/{id}")
+	public void deleteRewardById(@PathVariable("id") Integer id) {
+		rewardService.deleteReward(id);
+	}
 }
