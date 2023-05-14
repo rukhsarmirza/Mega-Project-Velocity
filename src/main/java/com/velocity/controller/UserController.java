@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.service.DeleteOrderService;
+import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserService;
 
@@ -28,6 +29,8 @@ public class UserController {
 	
 	@Autowired
 	private DeleteOrderService deleteOrderService;
+	@Autowired
+	private ReimbursementService reimbursementService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -69,6 +72,13 @@ public class UserController {
 	public void deleteOrder(@PathVariable("id") Integer id) {
 
 		deleteOrderService.deleteOrder(id);
+
+	}
+	
+	@DeleteMapping("/deletereimbursement/{id}")
+	public void deletereimbursement(@PathVariable("id") Integer id) {
+
+		reimbursementService.deleteReimbursement(id);
 
 	}
 }
