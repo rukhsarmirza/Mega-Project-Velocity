@@ -114,7 +114,7 @@ public class UserController {
 		return ResponseEntity.ok().body(user);
 		
 	}
-	@PostMapping("/saveOrder")
+	@PostMapping("/saveUser")
 	public ResponseEntity<User> saveUser(@RequestBody User user) {
 
 		User user1 = userService.saveUser(user);
@@ -122,8 +122,8 @@ public class UserController {
 
 		for (Order order : orders) {
 			order.setUserid(user.getId());
-			userService.saveUser(order);
-		}
+			OrderService.saveOrderById(order);
+			}
 
 		return ResponseEntity.ok().body(user1);
 	}

@@ -3,7 +3,7 @@ package com.velocity.serviceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.velocity.model.Order;
+
 import com.velocity.model.User;
 import com.velocity.repository.UserRepository;
 import com.velocity.service.UserService;
@@ -22,10 +22,5 @@ public class UserServiceImpl implements UserService  {
 		return user1;
 	}
 	
-	@Override
-	public User saveUser(Order order) {
-		User user2 =userRepository.save(order);
-		return user2;
-	}
-
+	
 }
