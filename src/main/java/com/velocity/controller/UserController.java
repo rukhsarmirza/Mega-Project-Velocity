@@ -147,6 +147,12 @@ public class UserController {
 		}
 		
 		return ResponseEntity.ok().body(user1);
+		
 	}
-
+	@DeleteMapping("/deleteuser/{id}")
+	public void deleteUserById( @PathVariable("id") Integer id) {
+		userService.deleteUser(id);
+		
+		
+	}
 }
