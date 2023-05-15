@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.velocity.model.Order;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
-import com.velocity.service.DeleteOrderService;
+import com.velocity.service.OrderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserService;
@@ -31,7 +32,7 @@ public class UserController {
 	private RewardService rewardService;
 	
 	@Autowired
-	private DeleteOrderService deleteOrderService;
+	private OrderService OrderService;
 	@Autowired
 	private ReimbursementService reimbursementService;
 
@@ -52,7 +53,7 @@ public class UserController {
 	}
 
 	// its a controller class with get reward funtion
-	@GetMapping("/get/{id}")
+	@GetMapping("/getreward/{id}")
 	public ResponseEntity<User> getUserReward(@PathVariable("id") Integer id) {
 
 		User user = userService.getUserdById(id);
@@ -65,7 +66,7 @@ public class UserController {
 		return ResponseEntity.ok().body(user);
 
 	}
-    // this method is for delete operation
+    // this method is for delete  reward operation
 	@DeleteMapping("/delete/{id}")
 	public void deleteRewardById(@PathVariable("id") Integer id) {
 		rewardService.deleteReward(id);
@@ -74,7 +75,7 @@ public class UserController {
 	@DeleteMapping("/deleteorder/{id}")
 	public void deleteOrder(@PathVariable("id") Integer id) {
 
-		deleteOrderService.deleteOrder(id);
+		OrderService.deleteOrder(id);
 
 	}
 	
@@ -99,4 +100,20 @@ public class UserController {
 		    Optional<Reimbursement> reimbursement=reimbursementService.getReimbursementDetails(id);
 		    return ResponseEntity.ok().body(reimbursement);
 	}
+	
+	@GetMapping("/getUser/{id}")
+	public ResponseEntity<User> getUser(@PathVariable("id") Integer id) {
+
+		User user = userService.getUserdById(id);
+		List<Order> orders = user.getOrderList();
+
+		for (Order order : orders) {
+			order.setUserid(user.getId());
+			OrderService.getOrderById(id);
+		}
+		return ResponseEntity.ok().body(user);
+		
+	}
+
+	
 }

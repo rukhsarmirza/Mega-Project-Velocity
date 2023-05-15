@@ -26,6 +26,9 @@ public class User {
 	
 	@OneToMany(mappedBy = "userId")
 	private List<Reward> rewardList;
+	
+	@OneToMany(mappedBy = "userid")
+	private List<Order> orderList;
 
 	public int getId() {
 		return id;
@@ -89,6 +92,14 @@ public class User {
 
 	public void setRewardList(List<Reward> rewardList) {
 		this.rewardList = rewardList;
+	}
+	
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
 	}
 	
 	

@@ -5,11 +5,13 @@ import java.io.Serializable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.velocity.model.DeleteOrder;
+import com.velocity.model.Order;
+
 
 @Repository
-public interface DeleteOrderRepository extends CrudRepository<DeleteOrder, Serializable>{
+public interface OrderRepository extends CrudRepository<Order, Serializable>{
 
+	public Order findById(Integer id);
 	
 	
 }
