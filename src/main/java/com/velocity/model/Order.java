@@ -8,22 +8,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "orders")
-public class DeleteOrder {
+public class Order {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int orderid;
+	private int id;
 	private int userid;
 	private String productName;
 	private int quantity;
 	private int price;
 
 	public int getOrderid() {
-		return orderid;
+		return id;
 	}
 
-	public void setOrderid(int orderid) {
-		this.orderid = orderid;
+	public void setOrderid(int id) {
+		this.id = id;
 	}
 
 	public int getUserid() {
