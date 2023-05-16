@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.velocity.model.Cart;
 import com.velocity.model.Order;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
+import com.velocity.service.CartService;
 import com.velocity.service.OrderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
@@ -35,6 +37,9 @@ public class UserController {
 	private OrderService OrderService;
 	@Autowired
 	private ReimbursementService reimbursementService;
+	
+	@Autowired
+	private CartService cartService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -152,7 +157,10 @@ public class UserController {
 	@DeleteMapping("/deleteuser/{id}")
 	public void deleteUserById( @PathVariable("id") Integer id) {
 		userService.deleteUser(id);
-		
-		
+	}
+	@PostMapping("/saveCart")
+	public ResponseEntity<Cart>saveCart(@RequestBody Cart cart) {
+		Cart cart1 = cartService.saveCartByCartId(cart);
+		return ResponseEntity.ok().body(cart1);
 	}
 }
