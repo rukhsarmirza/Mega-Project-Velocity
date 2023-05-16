@@ -163,4 +163,10 @@ public class UserController {
 		Cart cart1 = cartService.saveCartByCartId(cart);
 		return ResponseEntity.ok().body(cart1);
 	}
+	@GetMapping("/getCart/{id}")
+	public ResponseEntity<Cart> getCart(@PathVariable("id") Integer id) {
+		Cart cart = cartService.getCardById(id);
+		return ResponseEntity.ok().body(cart);
+	}
+	
 }
