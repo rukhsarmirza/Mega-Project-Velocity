@@ -159,6 +159,7 @@ public class UserController {
 		
 		
 	}
+	// this is save bank account method
 	@PostMapping("/saveBankAccount")
 	public ResponseEntity<BankAccount> saveBankAccount(@RequestBody BankAccount bankAccount) {
 		BankAccount bankAccount1 = bankAccountService.saveBankAccount(bankAccount);
