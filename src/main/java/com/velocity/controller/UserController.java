@@ -215,7 +215,7 @@ public class UserController {
 		Optional<BankAccount> bankAccount = bankAccountService.getBankAccountDetails(id);
 		return ResponseEntity.ok().body(bankAccount);
 	}
-
+ 
 
 	@PutMapping("/updateaddress/{id}")
 	public ResponseEntity<UserAddress> updateUserAddress(@RequestBody UserAddress userAddress) {
@@ -235,5 +235,10 @@ public class UserController {
 		UserAddress userAddress1 = userAddressService.saveUser(userAddress);
 		return ResponseEntity.ok().body(userAddress1);
 
+	}
+	@DeleteMapping("/deleteuserAddress/{id}")
+	public void deleteAddressbyid(@PathVariable("id") Integer id) {
+		userAddressService.deleteAddress(id);
+		
 	}
 }

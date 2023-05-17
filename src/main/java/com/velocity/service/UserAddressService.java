@@ -6,4 +6,5 @@ public interface UserAddressService {
 
 	public UserAddress updateAddressDetails(UserAddress userAddress);
 	public UserAddress saveUser(UserAddress userAddress);
+	public void deleteAddress(Integer id);
 }
