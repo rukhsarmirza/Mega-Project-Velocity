@@ -30,6 +30,7 @@ import com.velocity.service.CartService;
 import com.velocity.service.CurrencyConvertService;
 
 import com.velocity.service.OrderService;
+import com.velocity.service.PaymentService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserService;
@@ -42,19 +43,20 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private RewardService rewardService;
-
 	@Autowired
 	private OrderService OrderService;
 	@Autowired
 	private ReimbursementService reimbursementService;
 	@Autowired
 	private BankAccountService bankAccountService;
-
 	@Autowired
 	private CartService cartService;
-
 	@Autowired
 	private CurrencyConvertService currencyConvertService;
+	@Autowired
+	private PaymentService paymentService;
+	
+	
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -207,6 +209,10 @@ public class UserController {
 	public ResponseEntity<Optional<BankAccount>> getBankAccountDetails(@PathVariable("id") Integer id) {
 		Optional<BankAccount> bankAccount = bankAccountService.getBankAccountDetails(id);
 		return ResponseEntity.ok().body(bankAccount);
-}
+	}
+	@DeleteMapping("/deletePayment/{id}")
+	public void deletePaymentById(@PathVariable("id") Integer id) {
+		paymentService.deletePayment(id);
+	}
 
 }
