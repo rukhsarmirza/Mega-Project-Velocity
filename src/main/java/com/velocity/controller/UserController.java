@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.velocity.model.Cart;
+import com.velocity.model.CurrencyConvert;
 import com.velocity.model.Order;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.service.CartService;
+import com.velocity.service.CurrencyConvertService;
 import com.velocity.service.OrderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
@@ -37,9 +39,12 @@ public class UserController {
 	private OrderService OrderService;
 	@Autowired
 	private ReimbursementService reimbursementService;
-	
+
 	@Autowired
 	private CartService cartService;
+
+	@Autowired
+	private CurrencyConvertService currencyConvertService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -140,33 +145,41 @@ public class UserController {
 	@PutMapping("/updateUser/{id}")
 	public ResponseEntity<User> updateUser(@RequestBody User user) {
 		User user1 = userService.updateUser(user);
-		List<Order> orders=user.getOrderList();
-		
-		for(Order order : orders) {
+		List<Order> orders = user.getOrderList();
+
+		for (Order order : orders) {
 			order.setPrice(order.getPrice());
 			order.setProductName(order.getProductName());
 			order.setQuantity(order.getQuantity());
 			order.setUserid(order.getUserid());
-			
+
 			OrderService.updateOrder(order);
 		}
-		
+
 		return ResponseEntity.ok().body(user1);
-		
+
 	}
+
 	@DeleteMapping("/deleteuser/{id}")
-	public void deleteUserById( @PathVariable("id") Integer id) {
+	public void deleteUserById(@PathVariable("id") Integer id) {
 		userService.deleteUser(id);
 	}
+
 	@PostMapping("/saveCart")
-	public ResponseEntity<Cart>saveCart(@RequestBody Cart cart) {
+	public ResponseEntity<Cart> saveCart(@RequestBody Cart cart) {
 		Cart cart1 = cartService.saveCartByCartId(cart);
 		return ResponseEntity.ok().body(cart1);
 	}
+
 	@GetMapping("/getCart/{id}")
 	public ResponseEntity<Cart> getCart(@PathVariable("id") Integer id) {
 		Cart cart = cartService.getCardById(id);
 		return ResponseEntity.ok().body(cart);
 	}
-	
+
+	@PostMapping("/currencyconvert")
+	public ResponseEntity<CurrencyConvert> addDetails(@RequestBody CurrencyConvert currencyConvert) {
+		CurrencyConvert currencyConvert2 = currencyConvertService.addDetails(currencyConvert);
+		return ResponseEntity.ok().body(currencyConvert2);
+	}
 }
