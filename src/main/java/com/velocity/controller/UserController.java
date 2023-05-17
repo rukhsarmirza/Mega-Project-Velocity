@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.velocity.model.BankAccount;
 
 import com.velocity.model.Cart;
@@ -23,7 +22,7 @@ import com.velocity.model.Order;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
-
+import com.velocity.model.UserAddress;
 import com.velocity.service.BankAccountService;
 
 import com.velocity.service.CartService;
@@ -32,6 +31,7 @@ import com.velocity.service.CurrencyConvertService;
 import com.velocity.service.OrderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
+import com.velocity.service.UserAddressService;
 import com.velocity.service.UserService;
 
 @RestController
@@ -55,6 +55,9 @@ public class UserController {
 
 	@Autowired
 	private CurrencyConvertService currencyConvertService;
+
+	@Autowired
+	private UserAddressService userAddressService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -113,7 +116,6 @@ public class UserController {
 		return ResponseEntity.ok().body(reimbursement1);
 	}
 
-	
 	public Reimbursement updateReimbursementDetails(@RequestBody Reimbursement reimbursement) {
 		return reimbursementService.updateReimbursementDetails(reimbursement);
 	}
@@ -192,21 +194,33 @@ public class UserController {
 		CurrencyConvert currencyConvert2 = currencyConvertService.addDetails(currencyConvert);
 		return ResponseEntity.ok().body(currencyConvert2);
 	}
+
 	// this is save bank account method
 	@PostMapping("/saveBankAccount")
 	public ResponseEntity<BankAccount> saveBankAccount(@RequestBody BankAccount bankAccount) {
 		BankAccount bankAccount1 = bankAccountService.saveBankAccount(bankAccount);
 		return ResponseEntity.ok().body(bankAccount1);
-	
+
 	}
+
 	@PutMapping("/updateBankAccount/{id}")
 	public BankAccount updateBankAccountDetails(@RequestBody BankAccount bankAccount) {
 		return bankAccountService.updateBankAccountDetails(bankAccount);
 	}
+
 	@GetMapping("/getBankAccount/{id}")
 	public ResponseEntity<Optional<BankAccount>> getBankAccountDetails(@PathVariable("id") Integer id) {
 		Optional<BankAccount> bankAccount = bankAccountService.getBankAccountDetails(id);
 		return ResponseEntity.ok().body(bankAccount);
-}
+	}
+
+	@PutMapping("/updateaddress/{id}")
+	public ResponseEntity<UserAddress> updateUserAddress(@RequestBody UserAddress userAddress) {
+
+		UserAddress userAddress2 = userAddressService.updateAddressDetails(userAddress);
+
+		return ResponseEntity.ok().body(userAddress2);
+
+	}
 
 }
