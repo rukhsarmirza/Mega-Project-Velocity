@@ -230,5 +230,10 @@ public class UserController {
 		paymentService.deletePayment(id);
 
 	}
+	@PostMapping("/saveUserAddress")
+	public ResponseEntity<UserAddress> saveUserAddress(@RequestBody UserAddress userAddress) {
+		UserAddress userAddress1 = userAddressService.saveUser(userAddress);
+		return ResponseEntity.ok().body(userAddress1);
 
+	}
 }
