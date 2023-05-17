@@ -1,19 +1,20 @@
 package com.velocity.model;
 
-
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
-	 //user pojo class
+	// user pojo class
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -23,12 +24,15 @@ public class User {
 	private String gender;
 	private String birthday;
 	private String userType;
-	
+
 	@OneToMany(mappedBy = "userId")
 	private List<Reward> rewardList;
-	
+
 	@OneToMany(mappedBy = "userid")
 	private List<Order> orderList;
+
+	@OneToOne(targetEntity = UserAddress.class,cascade=CascadeType.ALL)
+	private UserAddress address;
 
 	public int getId() {
 		return id;
@@ -93,7 +97,7 @@ public class User {
 	public void setRewardList(List<Reward> rewardList) {
 		this.rewardList = rewardList;
 	}
-	
+
 	public List<Order> getOrderList() {
 		return orderList;
 	}
@@ -101,10 +105,13 @@ public class User {
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}
-	
-	
 
-	
-						
+	public UserAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(UserAddress address) {
+		this.address = address;
+	}
 
 }
