@@ -29,6 +29,7 @@ import com.velocity.service.CartService;
 import com.velocity.service.CurrencyConvertService;
 
 import com.velocity.service.OrderService;
+import com.velocity.service.PaymentService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserAddressService;
@@ -42,19 +43,20 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private RewardService rewardService;
-
 	@Autowired
 	private OrderService OrderService;
 	@Autowired
 	private ReimbursementService reimbursementService;
 	@Autowired
 	private BankAccountService bankAccountService;
-
 	@Autowired
 	private CartService cartService;
-
 	@Autowired
 	private CurrencyConvertService currencyConvertService;
+	@Autowired
+	private PaymentService paymentService;
+	
+	
 
 	@Autowired
 	private UserAddressService userAddressService;
@@ -214,12 +216,18 @@ public class UserController {
 		return ResponseEntity.ok().body(bankAccount);
 	}
 
+
 	@PutMapping("/updateaddress/{id}")
 	public ResponseEntity<UserAddress> updateUserAddress(@RequestBody UserAddress userAddress) {
 
 		UserAddress userAddress2 = userAddressService.updateAddressDetails(userAddress);
 
 		return ResponseEntity.ok().body(userAddress2);
+	}
+
+	@DeleteMapping("/deletePayment/{id}")
+	public void deletePaymentById(@PathVariable("id") Integer id) {
+		paymentService.deletePayment(id);
 
 	}
 
