@@ -22,7 +22,13 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Override
 	public UserAddress saveUser(UserAddress userAddress) {
 		UserAddress userAddress2  =  userAddressRepository.save(userAddress);
-	      return userAddress;
+	      return userAddress2;
+	}
+
+	@Override
+	public void deleteAddress(Integer id) {
+		 userAddressRepository.deleteById(id);
+		
 	}
 
 }
