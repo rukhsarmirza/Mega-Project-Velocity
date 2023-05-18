@@ -254,4 +254,9 @@ public class UserController {
 		
 
 	}
+	@PostMapping("/savePayment")
+	public ResponseEntity<Payment> savePayment(@RequestBody Payment payment) {
+		Payment pay= paymentService.savePaymentDetails(payment);
+	return ResponseEntity.ok().body(pay);
+}
 }
