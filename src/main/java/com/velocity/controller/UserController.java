@@ -19,6 +19,7 @@ import com.velocity.model.Cart;
 import com.velocity.model.CurrencyConvert;
 
 import com.velocity.model.Order;
+import com.velocity.model.Payment;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
@@ -55,8 +56,6 @@ public class UserController {
 	private CurrencyConvertService currencyConvertService;
 	@Autowired
 	private PaymentService paymentService;
-	
-	
 
 	@Autowired
 	private UserAddressService userAddressService;
@@ -215,7 +214,6 @@ public class UserController {
 		Optional<BankAccount> bankAccount = bankAccountService.getBankAccountDetails(id);
 		return ResponseEntity.ok().body(bankAccount);
 	}
- 
 
 	@PutMapping("/updateaddress/{id}")
 	public ResponseEntity<UserAddress> updateUserAddress(@RequestBody UserAddress userAddress) {
@@ -230,15 +228,22 @@ public class UserController {
 		paymentService.deletePayment(id);
 
 	}
+
 	@PostMapping("/saveUserAddress")
 	public ResponseEntity<UserAddress> saveUserAddress(@RequestBody UserAddress userAddress) {
 		UserAddress userAddress1 = userAddressService.saveUser(userAddress);
 		return ResponseEntity.ok().body(userAddress1);
 
 	}
+
 	@DeleteMapping("/deleteuserAddress/{id}")
 	public void deleteAddressbyid(@PathVariable("id") Integer id) {
 		userAddressService.deleteAddress(id);
-		
+
+	}
+
+	@GetMapping("/getPaymentDetails/{id}")
+	public Payment getPaymentDetails(@PathVariable("id") Integer id) {
+		return paymentService.getPaymentDetails(id);
 	}
 }

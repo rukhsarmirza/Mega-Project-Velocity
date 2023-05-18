@@ -1,9 +1,11 @@
 package com.velocity.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -11,12 +13,15 @@ import javax.persistence.Table;
 public class Order {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int userid;
 	private String productName;
 	private int quantity;
 	private int price;
+
+	@OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
+	private Payment payment;
 
 	public int getOrderid() {
 		return id;
@@ -56,6 +61,14 @@ public class Order {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 }
