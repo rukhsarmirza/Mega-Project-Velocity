@@ -238,12 +238,20 @@ public class UserController {
 
 	@DeleteMapping("/deleteuserAddress/{id}")
 	public void deleteAddressbyid(@PathVariable("id") Integer id) {
-		userAddressService.deleteAddress(id);
+            userAddressService.deleteAddress(id);
 
 	}
 
 	@GetMapping("/getPaymentDetails/{id}")
 	public Payment getPaymentDetails(@PathVariable("id") Integer id) {
 		return paymentService.getPaymentDetails(id);
+		 	
+	}
+	@GetMapping("/getUserAddress/{id}")
+	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id){
+		Optional<UserAddress> userAdress = userAddressService.getUserAddressById(id);
+		return ResponseEntity.ok().body(userAdress);
+		
+
 	}
 }
