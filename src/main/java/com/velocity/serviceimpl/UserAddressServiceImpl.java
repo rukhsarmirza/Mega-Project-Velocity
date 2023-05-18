@@ -1,7 +1,10 @@
 package com.velocity.serviceimpl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.velocity.model.UserAddress;
 import com.velocity.repository.UserAddressRepository;
@@ -29,6 +32,12 @@ public class UserAddressServiceImpl implements UserAddressService {
 	public void deleteAddress(Integer id) {
 		 userAddressRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public Optional<UserAddress> getUserAddressById(Integer id) {
+		Optional<UserAddress> userAdress = userAddressRepository.findById(id);
+		return userAdress;
 	}
 
 }
