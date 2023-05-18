@@ -19,6 +19,7 @@ import com.velocity.model.Cart;
 import com.velocity.model.CurrencyConvert;
 
 import com.velocity.model.Order;
+import com.velocity.model.Payment;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
@@ -245,5 +246,12 @@ public class UserController {
 		Optional<UserAddress> userAdress = userAddressService.getUserAddressById(id);
 		return ResponseEntity.ok().body(userAdress);
 		
+	}
+	@PutMapping("/updatepayment/{id}")
+	public ResponseEntity<Payment> updatepayment(@RequestBody Payment payment) {
+
+		Payment pay=paymentService.updatePaymentDetails(payment);
+
+		return ResponseEntity.ok().body(pay);
 	}
 }
