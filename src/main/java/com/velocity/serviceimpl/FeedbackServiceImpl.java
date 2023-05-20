@@ -1,16 +1,17 @@
 package com.velocity.serviceimpl;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.velocity.model.Feedback;
+import com.velocity.repository.FeedbackRepository;
 import com.velocity.service.FeedbackService;
-
+@Service
 public class FeedbackServiceImpl implements FeedbackService{
 	
 	@Autowired
-	private com.velocity.repository.FeedbackRepository feedbackRepository;
+	private FeedbackRepository feedbackRepository;
 
 	@Override
 	public Feedback saveFeedback(Feedback feedback) {  
@@ -18,11 +19,7 @@ public class FeedbackServiceImpl implements FeedbackService{
 		return feedback1;
 	}
 
-	@Override
-	public Optional<Feedback> getFeedbackDetails(Integer feedbackid) {
-		
-		return null;
-	}
+	
 	
 
 }
