@@ -31,8 +31,11 @@ public class User {
 	@OneToMany(mappedBy = "userid")
 	private List<Order> orderList;
 
-	@OneToOne(targetEntity = UserAddress.class,cascade=CascadeType.ALL)
+	@OneToOne(targetEntity = UserAddress.class, cascade = CascadeType.ALL)
 	private UserAddress address;
+
+	@OneToMany(mappedBy = "user_id")
+	private List<MultipleAddress> multipleAddresses;
 
 	public int getId() {
 		return id;
@@ -106,12 +109,19 @@ public class User {
 		this.orderList = orderList;
 	}
 
-	public UserAddress getAddress() {
+	public UserAddress getAddressList() {
 		return address;
 	}
 
-	public void setAddress(UserAddress address) {
+	public void setAddressList(UserAddress address) {
 		this.address = address;
 	}
 
+	public List<MultipleAddress> getMultipleAddresses() {
+		return multipleAddresses;
+	}
+
+	public void setMultipleAddresses(List<MultipleAddress> multipleAddresses) {
+		this.multipleAddresses = multipleAddresses;
+	}
 }

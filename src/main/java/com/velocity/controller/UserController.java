@@ -17,7 +17,7 @@ import com.velocity.model.BankAccount;
 
 import com.velocity.model.Cart;
 import com.velocity.model.CurrencyConvert;
-
+import com.velocity.model.MultipleAddress;
 import com.velocity.model.Order;
 import com.velocity.model.Payment;
 import com.velocity.model.Reimbursement;
@@ -25,10 +25,10 @@ import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.model.UserAddress;
 import com.velocity.service.BankAccountService;
-
+import com.velocity.service.CartAmountService;
 import com.velocity.service.CartService;
 import com.velocity.service.CurrencyConvertService;
-
+import com.velocity.service.MultipleAddressService;
 import com.velocity.service.OrderService;
 import com.velocity.service.PaymentService;
 import com.velocity.service.ReimbursementService;
@@ -59,6 +59,12 @@ public class UserController {
 
 	@Autowired
 	private UserAddressService userAddressService;
+
+	@Autowired
+	private MultipleAddressService multipleAddressService;
+
+	@Autowired
+	private CartAmountService cartAmountService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -238,20 +244,59 @@ public class UserController {
 
 	@DeleteMapping("/deleteuserAddress/{id}")
 	public void deleteAddressbyid(@PathVariable("id") Integer id) {
-            userAddressService.deleteAddress(id);
+		userAddressService.deleteAddress(id);
 
 	}
 
 	@GetMapping("/getPaymentDetails/{id}")
 	public Payment getPaymentDetails(@PathVariable("id") Integer id) {
 		return paymentService.getPaymentDetails(id);
-		 	
+
 	}
+
 	@GetMapping("/getUserAddress/{id}")
-	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id){
+	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id) {
 		Optional<UserAddress> userAdress = userAddressService.getUserAddressById(id);
 		return ResponseEntity.ok().body(userAdress);
-		
+
+	}
+
+	@PutMapping("/updatepayment/{id}")
+	public ResponseEntity<Payment> updatepayment(@RequestBody Payment payment) {
+
+		Payment pay = paymentService.updatePaymentDetails(payment);
+
+		return ResponseEntity.ok().body(pay);
+	}
+
+	@PostMapping("/saveMultipleAddresses")
+	public User saveUserAddress(@RequestBody User user) {
+		User user1 = userService.saveUserAddress(user);
+		List<MultipleAddress> add = user.getMultipleAddresses();
+		for (MultipleAddress address : add) {
+			address.setUserid(user1.getId());
+			multipleAddressService.saveMultipleAddress(address);
+		}
+
+		return user1;
+	}
+
+	@GetMapping("/orderamount")
+	public double getCartAmount() {
+		return cartAmountService.calculateCartAmount();
+	}
+
+	@GetMapping("/getAddresses/{id}")
+	public ResponseEntity<User> getUserAddresses(@PathVariable("id") Integer id) {
+
+		User user = userService.getUserdById(id);
+		List<MultipleAddress> a = user.getMultipleAddresses();
+
+		for (MultipleAddress b : a) {
+			b.setUserid(user.getId());
+			multipleAddressService.getAddressesByUserId(id);
+		}
+		return ResponseEntity.ok().body(user);
 
 	}
 }
