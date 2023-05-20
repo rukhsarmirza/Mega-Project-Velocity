@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.velocity.model.BankAccount;
-
+import com.velocity.model.Bill;
 import com.velocity.model.Cart;
 import com.velocity.model.CurrencyConvert;
 import com.velocity.model.MultipleAddress;
@@ -25,6 +25,7 @@ import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.model.UserAddress;
 import com.velocity.service.BankAccountService;
+import com.velocity.service.BillService;
 import com.velocity.service.CartAmountService;
 import com.velocity.service.CartService;
 import com.velocity.service.CurrencyConvertService;
@@ -65,6 +66,8 @@ public class UserController {
 
 	@Autowired
 	private CartAmountService cartAmountService;
+	@Autowired
+	private BillService billService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -298,5 +301,11 @@ public class UserController {
 		}
 		return ResponseEntity.ok().body(user);
 
+	}
+	@GetMapping("/getBill/{id}")
+	public ResponseEntity<Bill> getBill(@PathVariable("id") Integer id){
+		Bill bill = billService.getBillById(id);
+		return ResponseEntity.ok().body(bill);
+		
 	}
 }
