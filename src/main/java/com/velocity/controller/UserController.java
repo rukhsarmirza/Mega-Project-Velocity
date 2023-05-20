@@ -302,10 +302,17 @@ public class UserController {
 		return ResponseEntity.ok().body(user);
 
 	}
+
 	@GetMapping("/getBill/{id}")
-	public ResponseEntity<Bill> getBill(@PathVariable("id") Integer id){
+	public ResponseEntity<Bill> getBill(@PathVariable("id") Integer id) {
 		Bill bill = billService.getBillById(id);
 		return ResponseEntity.ok().body(bill);
-		
+
+	}
+
+	@PostMapping("/addBillDetails")
+	public Bill addBill(@RequestBody Bill bill) {
+		return billService.saveBill(bill);
+
 	}
 }
