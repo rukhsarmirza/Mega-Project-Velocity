@@ -315,4 +315,11 @@ public class UserController {
 		return billService.saveBill(bill);
 
 	}
+	@PutMapping("/updateBill/{id}")
+	public ResponseEntity<Bill> updatepBill(@RequestBody Bill bill) {
+
+		Bill bills =  billService.updateBill(bill);
+
+		return ResponseEntity.ok().body(bills);
+	}
 }

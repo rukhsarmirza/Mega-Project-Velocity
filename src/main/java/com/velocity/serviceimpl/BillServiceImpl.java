@@ -17,9 +17,16 @@ public class BillServiceImpl implements BillService {
 		return bill;
 	}
 	@Override
+
+	public Bill updateBill(Bill bill) {
+		Bill bills=billRepository.save(bill);
+		return bills;
+	}
+
 	public Bill saveBill(Bill bill) {
 		return billRepository.save(bill);
 	
+
 	}
 
 }
