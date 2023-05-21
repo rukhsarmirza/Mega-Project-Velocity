@@ -17,6 +17,7 @@ import com.velocity.model.BankAccount;
 import com.velocity.model.Bill;
 import com.velocity.model.Cart;
 import com.velocity.model.CurrencyConvert;
+import com.velocity.model.Feedback;
 import com.velocity.model.MultipleAddress;
 import com.velocity.model.Order;
 import com.velocity.model.Payment;
@@ -29,6 +30,7 @@ import com.velocity.service.BillService;
 import com.velocity.service.CartAmountService;
 import com.velocity.service.CartService;
 import com.velocity.service.CurrencyConvertService;
+import com.velocity.service.FeedbackService;
 import com.velocity.service.MultipleAddressService;
 import com.velocity.service.OrderService;
 import com.velocity.service.PaymentService;
@@ -60,6 +62,9 @@ public class UserController {
 
 	@Autowired
 	private UserAddressService userAddressService;
+	@Autowired
+	private FeedbackService feedbackService;
+	
 
 	@Autowired
 	private MultipleAddressService multipleAddressService;
@@ -257,6 +262,14 @@ public class UserController {
 
 	}
 
+	@PostMapping("/saveFeedback")
+	public ResponseEntity<Feedback> savefeedback(@RequestBody Feedback feedback) {
+		Feedback feedback1 = feedbackService.saveFeedback(feedback);
+		return ResponseEntity.ok().body(feedback1);
+	}
+	
+
+
 	@GetMapping("/getUserAddress/{id}")
 	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id) {
 		Optional<UserAddress> userAdress = userAddressService.getUserAddressById(id);
@@ -322,4 +335,5 @@ public class UserController {
 
 		return ResponseEntity.ok().body(bills);
 	}
+
 }
