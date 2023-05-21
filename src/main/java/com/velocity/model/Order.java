@@ -15,28 +15,20 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int userid;
 	private String productName;
 	private int quantity;
 	private int price;
+	private Integer userid;
 
 	@OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
 	private Payment payment;
 
-	public int getOrderid() {
+	public int getId() {
 		return id;
 	}
 
-	public void setOrderid(int id) {
+	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getUserid() {
-		return userid;
-	}
-
-	public void setUserid(int userid) {
-		this.userid = userid;
 	}
 
 	public String getProductName() {
@@ -61,6 +53,14 @@ public class Order {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
 	}
 
 	public Payment getPayment() {
