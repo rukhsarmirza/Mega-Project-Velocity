@@ -2,15 +2,17 @@ package com.velocity.serviceimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.velocity.model.User;
 import com.velocity.repository.UserRepository;
 import com.velocity.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
 	@Autowired
 	public UserRepository userRepository;
+
+	
 
 	@Override
 	public User getUserdById(Integer id) {
@@ -41,5 +43,7 @@ public class UserServiceImpl implements UserService {
 		User user4 = userRepository.save(user3);
 		return user4;
 	}
+
+	
 
 }
