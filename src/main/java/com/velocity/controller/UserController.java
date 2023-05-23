@@ -27,7 +27,9 @@ import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.model.UserAddress;
+
 import com.velocity.model.UserLogin;
+
 import com.velocity.model.UserDetails;
 import com.velocity.service.BankAccountService;
 import com.velocity.service.BillService;
@@ -43,9 +45,12 @@ import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserAddressService;
 
+import com.velocity.service.UserDetailsService;
+
 import com.velocity.service.UserLoginService;
 
-import com.velocity.service.UserDetailsService;
+
+
 
 import com.velocity.service.UserService;
 
@@ -89,6 +94,7 @@ public class UserController {
 
 	@Autowired
 	private UserLoginService userLoginService;
+
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -392,6 +398,12 @@ public class UserController {
 		LoginResponse loginResponse = userLoginService.loginUser(loginDTO);
 
 		return ResponseEntity.ok(loginResponse);
+	}
+
+	@PostMapping("/saveUserDetails")
+	public ResponseEntity<UserDetails> saveUserDetails(@RequestBody UserDetails userDetails) {
+		UserDetails userDetail = userDetailsService.saveUserDetails(userDetails);
+		return ResponseEntity.ok().body(userDetail);
 	}
 
 }
