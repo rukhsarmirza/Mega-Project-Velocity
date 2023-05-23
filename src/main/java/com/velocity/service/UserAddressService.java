@@ -11,4 +11,6 @@ public interface UserAddressService {
 	public UserAddress saveUser(UserAddress userAddress);
 	public void deleteAddress(Integer id);
 	public Optional<UserAddress> getUserAddressById(Integer id);
+	public UserAddress saveMultipleAddress(UserAddress userAddress1);
+	
 }

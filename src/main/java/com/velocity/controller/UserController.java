@@ -2,7 +2,6 @@ package com.velocity.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,30 +13,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.velocity.model.BankAccount;
-
+import com.velocity.model.Bill;
 import com.velocity.model.Cart;
 import com.velocity.model.CurrencyConvert;
 import com.velocity.model.Feedback;
+import com.velocity.model.LoginDTO;
+import com.velocity.model.LoginResponse;
+import com.velocity.model.MultipleAddress;
 import com.velocity.model.Order;
 import com.velocity.model.Payment;
+import com.velocity.model.Provider;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.model.UserAddress;
+import com.velocity.model.UserLogin;
+import com.velocity.model.UserDetails;
 import com.velocity.service.BankAccountService;
-
+import com.velocity.service.BillService;
+import com.velocity.service.CartAmountService;
 import com.velocity.service.CartService;
 import com.velocity.service.CurrencyConvertService;
 import com.velocity.service.FeedbackService;
+import com.velocity.service.MultipleAddressService;
 import com.velocity.service.OrderService;
 import com.velocity.service.PaymentService;
+import com.velocity.service.ProviderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserAddressService;
+
+import com.velocity.service.UserLoginService;
+
+import com.velocity.service.UserDetailsService;
+
 import com.velocity.service.UserService;
 
 @RestController
-
 public class UserController {
 
 	@Autowired
@@ -61,7 +73,22 @@ public class UserController {
 	private UserAddressService userAddressService;
 	@Autowired
 	private FeedbackService feedbackService;
-	
+
+	@Autowired
+	private MultipleAddressService multipleAddressService;
+
+	@Autowired
+	private CartAmountService cartAmountService;
+	@Autowired
+	private BillService billService;
+	@Autowired
+	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private ProviderService providerService;
+
+	@Autowired
+	private UserLoginService userLoginService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -241,26 +268,130 @@ public class UserController {
 
 	@DeleteMapping("/deleteuserAddress/{id}")
 	public void deleteAddressbyid(@PathVariable("id") Integer id) {
-            userAddressService.deleteAddress(id);
+		userAddressService.deleteAddress(id);
 
 	}
 
 	@GetMapping("/getPaymentDetails/{id}")
 	public Payment getPaymentDetails(@PathVariable("id") Integer id) {
 		return paymentService.getPaymentDetails(id);
-		 	
-	}
-	@GetMapping("/getUserAddress/{id}")
-	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id){
-		Optional<UserAddress> userAdress = userAddressService.getUserAddressById(id);
-		return ResponseEntity.ok().body(userAdress);
-		
 
 	}
+
 	@PostMapping("/saveFeedback")
 	public ResponseEntity<Feedback> savefeedback(@RequestBody Feedback feedback) {
 		Feedback feedback1 = feedbackService.saveFeedback(feedback);
 		return ResponseEntity.ok().body(feedback1);
 	}
+
+	@GetMapping("/getUserAddress/{id}")
+	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id) {
+		Optional<UserAddress> userAdress = userAddressService.getUserAddressById(id);
+		return ResponseEntity.ok().body(userAdress);
+
+	}
+
+	@PutMapping("/updatepayment/{id}")
+	public ResponseEntity<Payment> updatepayment(@RequestBody Payment payment) {
+
+		Payment pay = paymentService.updatePaymentDetails(payment);
+
+		return ResponseEntity.ok().body(pay);
+	}
+
+	@PostMapping("/saveMultipleAddresses")
+	public User saveUserAddress(@RequestBody User user) {
+		User user1 = userService.saveUserAddress(user);
+		List<MultipleAddress> add = user.getMultipleAddresses();
+		for (MultipleAddress address : add) {
+			address.setUserid(user1.getId());
+			multipleAddressService.saveMultipleAddress(address);
+		}
+
+		return user1;
+	}
+
+	@GetMapping("/orderamount")
+	public double getCartAmount() {
+		return cartAmountService.calculateCartAmount();
+	}
+
+	@GetMapping("/getAddresses/{id}")
+	public ResponseEntity<User> getUserAddresses(@PathVariable("id") Integer id) {
+
+		User user = userService.getUserdById(id);
+		List<MultipleAddress> a = user.getMultipleAddresses();
+
+		for (MultipleAddress b : a) {
+			b.setUserid(user.getId());
+			multipleAddressService.getAddressesByUserId(id);
+		}
+		return ResponseEntity.ok().body(user);
+
+	}
+
+	@GetMapping("/getBill/{id}")
+	public ResponseEntity<Bill> getBill(@PathVariable("id") Integer id) {
+		Bill bill = billService.getBillById(id);
+		return ResponseEntity.ok().body(bill);
+
+	}
+
+	@PostMapping("/addBillDetails")
+	public Bill addBill(@RequestBody Bill bill) {
+		return billService.saveBill(bill);
+
+	}
+
+	@PutMapping("/updateBill/{id}")
+	public ResponseEntity<Bill> updatepBill(@RequestBody Bill bill) {
+
+		Bill bills = billService.updateBill(bill);
+
+		return ResponseEntity.ok().body(bills);
+	}
+	@PutMapping("/updateUserDetails/{id}")
+	public ResponseEntity<UserDetails> updateUserDetails(@RequestBody UserDetails userDetails){
+		UserDetails userDetails1 = userDetailsService.updateUserDetails(userDetails);
+		  return ResponseEntity.ok().body(userDetails1);
 	
+	}
+
+	@DeleteMapping("/deleteProvider/{id}")
+	public void deleteProviderById(@PathVariable("id") Integer id) {
+		providerService.deleteProvider(id);
+	}
+
+	@PostMapping("/saveProvider")
+	public ResponseEntity<Provider> saveProviderDetails(@RequestBody Provider provider) {
+		Provider provider2 = providerService.saveProviderDetails(provider);
+		return ResponseEntity.ok().body(provider2);
+	}
+
+	@PutMapping("/updateProvider/{id}")
+	public ResponseEntity<Provider> updateProvider(@RequestBody Provider provider) {
+		Provider provider2 = providerService.updateProviderDetails(provider);
+		return ResponseEntity.ok().body(provider2);
+	}
+
+	@GetMapping("/getProvider/{id}")
+	public ResponseEntity<Optional<Provider>> getProviderById(@PathVariable("id") Integer id) {
+		Optional<Provider> provider = providerService.getProviderById(id);
+		return ResponseEntity.ok().body(provider);
+	}
+
+	@PostMapping("/savelogindetails")
+	public String saveUserLoginDetails(@RequestBody UserLogin userLogin) {
+		String id = userLoginService.addLoginDetails(userLogin);
+		return id;
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
+
+		LoginResponse loginResponse = userLoginService.loginUser(loginDTO);
+
+		return ResponseEntity.ok(loginResponse);
+	}
+
 }

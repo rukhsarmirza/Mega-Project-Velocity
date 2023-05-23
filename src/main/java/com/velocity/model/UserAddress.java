@@ -14,10 +14,11 @@ public class UserAddress {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String userAddress;
-	private String userid;
 	private String consignee;
 	private String phoneNum;
 	private String isDefault;
+	
+	private Integer userid;
 
 	public Integer getId() {
 		return id;
@@ -35,11 +36,11 @@ public class UserAddress {
 		this.userAddress = userAddress;
 	}
 
-	public String getUserid() {
+	public Integer getUserid() {
 		return userid;
 	}
 
-	public void setUserid(String userid) {
+	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
 
