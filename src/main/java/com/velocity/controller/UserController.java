@@ -26,6 +26,7 @@ import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.model.UserAddress;
+import com.velocity.model.UserDetails;
 import com.velocity.service.BankAccountService;
 import com.velocity.service.BillService;
 import com.velocity.service.CartAmountService;
@@ -39,6 +40,7 @@ import com.velocity.service.ProviderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserAddressService;
+import com.velocity.service.UserDetailsService;
 import com.velocity.service.UserService;
 
 @RestController
@@ -74,6 +76,8 @@ public class UserController {
 	private CartAmountService cartAmountService;
 	@Autowired
 	private BillService billService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@Autowired
 	private ProviderService providerService;
@@ -337,6 +341,12 @@ public class UserController {
 		Bill bills = billService.updateBill(bill);
 
 		return ResponseEntity.ok().body(bills);
+	}
+	@PutMapping("/updateUserDetails/{id}")
+	public ResponseEntity<UserDetails> updateUserDetails(@RequestBody UserDetails userDetails){
+		UserDetails userDetails1 = userDetailsService.updateUserDetails(userDetails);
+		  return ResponseEntity.ok().body(userDetails1);
+	
 	}
 
 	@DeleteMapping("/deleteProvider/{id}")
