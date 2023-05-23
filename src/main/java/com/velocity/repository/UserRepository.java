@@ -14,7 +14,5 @@ public interface UserRepository extends CrudRepository<User, Serializable> {
 	public User findById(Integer id);
 
 	public User save(Order order);
-	
-	
 
 }

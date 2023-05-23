@@ -2,7 +2,6 @@ package com.velocity.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +17,8 @@ import com.velocity.model.Bill;
 import com.velocity.model.Cart;
 import com.velocity.model.CurrencyConvert;
 import com.velocity.model.Feedback;
+import com.velocity.model.LoginDTO;
+import com.velocity.model.LoginResponse;
 import com.velocity.model.MultipleAddress;
 import com.velocity.model.Order;
 import com.velocity.model.Payment;
@@ -25,6 +26,7 @@ import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.model.UserAddress;
+import com.velocity.model.UserLogin;
 import com.velocity.service.BankAccountService;
 import com.velocity.service.BillService;
 import com.velocity.service.CartAmountService;
@@ -37,10 +39,10 @@ import com.velocity.service.PaymentService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserAddressService;
+import com.velocity.service.UserLoginService;
 import com.velocity.service.UserService;
 
 @RestController
-
 public class UserController {
 
 	@Autowired
@@ -64,7 +66,6 @@ public class UserController {
 	private UserAddressService userAddressService;
 	@Autowired
 	private FeedbackService feedbackService;
-	
 
 	@Autowired
 	private MultipleAddressService multipleAddressService;
@@ -73,6 +74,9 @@ public class UserController {
 	private CartAmountService cartAmountService;
 	@Autowired
 	private BillService billService;
+
+	@Autowired
+	private UserLoginService userLoginService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -267,8 +271,6 @@ public class UserController {
 		Feedback feedback1 = feedbackService.saveFeedback(feedback);
 		return ResponseEntity.ok().body(feedback1);
 	}
-	
-
 
 	@GetMapping("/getUserAddress/{id}")
 	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id) {
@@ -328,12 +330,27 @@ public class UserController {
 		return billService.saveBill(bill);
 
 	}
+
 	@PutMapping("/updateBill/{id}")
 	public ResponseEntity<Bill> updatepBill(@RequestBody Bill bill) {
 
-		Bill bills =  billService.updateBill(bill);
+		Bill bills = billService.updateBill(bill);
 
 		return ResponseEntity.ok().body(bills);
+	}
+
+	@PostMapping("/savelogindetails")
+	public String saveUserLoginDetails(@RequestBody UserLogin userLogin) {
+		String id = userLoginService.addLoginDetails(userLogin);
+		return id;
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
+
+		LoginResponse loginResponse = userLoginService.loginUser(loginDTO);
+
+		return ResponseEntity.ok(loginResponse);
 	}
 
 }
