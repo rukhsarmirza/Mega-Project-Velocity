@@ -426,7 +426,12 @@ public class UserController {
 	public void deleteProductById(@PathVariable("id") Integer id) {
 		productService.deleteProduct(id);
 	}
-
+	@GetMapping("/getUserDetails/{id}")
+	public ResponseEntity<UserDetails> getUserDetails(@PathVariable("id") Integer id){
+		UserDetails user = userDetailsService.getUserDetails(id);
+		return ResponseEntity.ok().body(user);
+		
+	}
 
 	@PostMapping("/saveUserDetails")
 	public ResponseEntity<UserDetails> saveUserDetails(@RequestBody UserDetails userDetails) {
