@@ -25,6 +25,7 @@ import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
 import com.velocity.model.UserAddress;
+import com.velocity.model.UserDetails;
 import com.velocity.service.BankAccountService;
 import com.velocity.service.BillService;
 import com.velocity.service.CartAmountService;
@@ -37,6 +38,7 @@ import com.velocity.service.PaymentService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserAddressService;
+import com.velocity.service.UserDetailsService;
 import com.velocity.service.UserService;
 
 @RestController
@@ -64,7 +66,6 @@ public class UserController {
 	private UserAddressService userAddressService;
 	@Autowired
 	private FeedbackService feedbackService;
-	
 
 	@Autowired
 	private MultipleAddressService multipleAddressService;
@@ -73,6 +74,8 @@ public class UserController {
 	private CartAmountService cartAmountService;
 	@Autowired
 	private BillService billService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -267,8 +270,6 @@ public class UserController {
 		Feedback feedback1 = feedbackService.saveFeedback(feedback);
 		return ResponseEntity.ok().body(feedback1);
 	}
-	
-
 
 	@GetMapping("/getUserAddress/{id}")
 	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id) {
@@ -328,12 +329,19 @@ public class UserController {
 		return billService.saveBill(bill);
 
 	}
+
 	@PutMapping("/updateBill/{id}")
 	public ResponseEntity<Bill> updatepBill(@RequestBody Bill bill) {
 
-		Bill bills =  billService.updateBill(bill);
+		Bill bills = billService.updateBill(bill);
 
 		return ResponseEntity.ok().body(bills);
+	}
+
+	@PostMapping("/saveUserDetails")
+	public ResponseEntity<UserDetails> saveUserDetails(@RequestBody UserDetails userDetails) {
+		UserDetails userDetail = userDetailsService.saveUserDetails(userDetails);
+		return ResponseEntity.ok().body(userDetail);
 	}
 
 }
