@@ -9,7 +9,7 @@ import com.velocity.model.UserDetails;
 @Repository
 public interface UserDetailsRepository extends CrudRepository<UserDetails, Serializable> {
 	
-
+ public UserDetails findById(Integer id);
 
 }
  
