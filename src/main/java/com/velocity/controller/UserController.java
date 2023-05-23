@@ -21,6 +21,7 @@ import com.velocity.model.Feedback;
 import com.velocity.model.MultipleAddress;
 import com.velocity.model.Order;
 import com.velocity.model.Payment;
+import com.velocity.model.Provider;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
 import com.velocity.model.User;
@@ -34,6 +35,7 @@ import com.velocity.service.FeedbackService;
 import com.velocity.service.MultipleAddressService;
 import com.velocity.service.OrderService;
 import com.velocity.service.PaymentService;
+import com.velocity.service.ProviderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
 import com.velocity.service.UserAddressService;
@@ -64,7 +66,6 @@ public class UserController {
 	private UserAddressService userAddressService;
 	@Autowired
 	private FeedbackService feedbackService;
-	
 
 	@Autowired
 	private MultipleAddressService multipleAddressService;
@@ -73,6 +74,9 @@ public class UserController {
 	private CartAmountService cartAmountService;
 	@Autowired
 	private BillService billService;
+
+	@Autowired
+	private ProviderService providerService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -267,8 +271,6 @@ public class UserController {
 		Feedback feedback1 = feedbackService.saveFeedback(feedback);
 		return ResponseEntity.ok().body(feedback1);
 	}
-	
-
 
 	@GetMapping("/getUserAddress/{id}")
 	public ResponseEntity<Optional<UserAddress>> getUserAddress(@PathVariable("id") Integer id) {
@@ -328,12 +330,36 @@ public class UserController {
 		return billService.saveBill(bill);
 
 	}
+
 	@PutMapping("/updateBill/{id}")
 	public ResponseEntity<Bill> updatepBill(@RequestBody Bill bill) {
 
-		Bill bills =  billService.updateBill(bill);
+		Bill bills = billService.updateBill(bill);
 
 		return ResponseEntity.ok().body(bills);
+	}
+
+	@DeleteMapping("/deleteProvider/{id}")
+	public void deleteProviderById(@PathVariable("id") Integer id) {
+		providerService.deleteProvider(id);
+	}
+
+	@PostMapping("/saveProvider")
+	public ResponseEntity<Provider> saveProviderDetails(@RequestBody Provider provider) {
+		Provider provider2 = providerService.saveProviderDetails(provider);
+		return ResponseEntity.ok().body(provider2);
+	}
+
+	@PutMapping("/updateProvider/{id}")
+	public ResponseEntity<Provider> updateProvider(@RequestBody Provider provider) {
+		Provider provider2 = providerService.updateProviderDetails(provider);
+		return ResponseEntity.ok().body(provider2);
+	}
+
+	@GetMapping("/getProvider/{id}")
+	public ResponseEntity<Optional<Provider>> getProviderById(@PathVariable("id") Integer id) {
+		Optional<Provider> provider = providerService.getProviderById(id);
+		return ResponseEntity.ok().body(provider);
 	}
 
 }
