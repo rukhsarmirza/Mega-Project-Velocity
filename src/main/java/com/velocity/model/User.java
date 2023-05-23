@@ -37,6 +37,22 @@ public class User {
 	@OneToMany(mappedBy = "user_id")
 	private List<MultipleAddress> multipleAddresses;
 
+	public User(String username, String realName, String password, String gender, String birthday, String userType,
+			List<Reward> rewardList, List<Order> orderList, UserAddress address,
+			List<MultipleAddress> multipleAddresses) {
+		super();
+		this.username = username;
+		this.realName = realName;
+		this.password = password;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.userType = userType;
+		this.rewardList = rewardList;
+		this.orderList = orderList;
+		this.address = address;
+		this.multipleAddresses = multipleAddresses;
+	}
+
 	public int getId() {
 		return id;
 	}

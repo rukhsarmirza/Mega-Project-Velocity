@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "userDetails")
+@Table(name = "userdetails")
 public class UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -136,14 +136,6 @@ public class UserDetails {
 
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	@Override
-	public String toString() {
-		return "UserDetails [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password
-				+ ", primaryMobile=" + primaryMobile + ", secondaryMobile=" + secondaryMobile + ", dob=" + dob
-				+ ", age=" + age + ", gender=" + gender + ", refferalType=" + refferalType + ", refferalInfo="
-				+ refferalInfo + ", address=" + address + ", city=" + city + ", state=" + state + "]";
 	}
 
 }

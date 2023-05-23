@@ -19,4 +19,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return userDetail;
 	}
 
+	@Override
+	public UserDetails updateUserDetails(UserDetails userDetails) {
+		return userDetailsRepository.save(userDetails);
+		 
+	}
+
 }
