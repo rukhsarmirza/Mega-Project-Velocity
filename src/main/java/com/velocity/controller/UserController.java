@@ -22,6 +22,7 @@ import com.velocity.model.LoginResponse;
 import com.velocity.model.MultipleAddress;
 import com.velocity.model.Order;
 import com.velocity.model.Payment;
+import com.velocity.model.Product;
 import com.velocity.model.Provider;
 import com.velocity.model.Reimbursement;
 import com.velocity.model.Reward;
@@ -38,6 +39,7 @@ import com.velocity.service.FeedbackService;
 import com.velocity.service.MultipleAddressService;
 import com.velocity.service.OrderService;
 import com.velocity.service.PaymentService;
+import com.velocity.service.ProductService;
 import com.velocity.service.ProviderService;
 import com.velocity.service.ReimbursementService;
 import com.velocity.service.RewardService;
@@ -89,6 +91,9 @@ public class UserController {
 
 	@Autowired
 	private UserLoginService userLoginService;
+	
+	@Autowired
+	private ProductService productService;
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -393,5 +398,28 @@ public class UserController {
 
 		return ResponseEntity.ok(loginResponse);
 	}
+	
+	@GetMapping("/getProduct/{id}")
+	public ResponseEntity<Product> getProduct(@PathVariable("id") Integer id){
+		Product prod = productService.getProductDetails(id);
+		return ResponseEntity.ok().body(prod);
+		
+	}
+	@PostMapping("/saveProduct")
+	public ResponseEntity<Product> saveProduct(@RequestBody Product product){
+		Product prod = productService.saveProductDetails(product);
+		return ResponseEntity.ok().body(prod);	
+	}
+	
+	@PutMapping("/updateProdect/{id}")
+	public ResponseEntity<Product> updateProduct(@RequestBody Product product){
+		Product prod = productService.updateProductDetails(product);
+		return ResponseEntity.ok().body(prod);	
+	}
+	@DeleteMapping("/deleteProduct/{id}")
+	public void deleteProductById(@PathVariable("id") Integer id) {
+		productService.deleteProduct(id);
+	}
+
 
 }
