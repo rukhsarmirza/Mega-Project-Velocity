@@ -17,6 +17,7 @@ public class Categary {
 	private int id;
 	private String categoryName;
 	
+
 	@OneToMany(mappedBy = "categaryId")
 	private List<Product> productList;
 
@@ -43,5 +44,6 @@ public class Categary {
 	public void setProductList(List<Product> productList) {
 		this.productList = productList;
 	}
+	
 	
 }
