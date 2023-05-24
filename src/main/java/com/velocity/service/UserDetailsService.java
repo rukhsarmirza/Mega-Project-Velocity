@@ -7,4 +7,8 @@ public interface UserDetailsService {
 	public UserDetails updateUserDetails(UserDetails userDetails);
 	public void deleteUserDetails(Integer id);
 
+	public UserDetails getUserDetails(Integer id);
+	
+	
+
 }

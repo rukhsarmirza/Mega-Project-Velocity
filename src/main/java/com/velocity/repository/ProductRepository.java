@@ -5,11 +5,9 @@ import java.io.Serializable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.velocity.model.UserDetails;
+import com.velocity.model.Product;
 @Repository
-public interface UserDetailsRepository extends CrudRepository<UserDetails, Serializable> {
+public interface ProductRepository extends CrudRepository<Product, Serializable>{
+	public Product findById(Integer id);
 	
- public UserDetails findById(Integer id);
-
 }
- 
