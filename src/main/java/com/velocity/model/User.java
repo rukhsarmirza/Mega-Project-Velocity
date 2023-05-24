@@ -51,6 +51,11 @@ public class User {
 		this.orderList = orderList;
 		this.address = address;
 		this.multipleAddresses = multipleAddresses;
+		
+	}
+	
+	public User() {
+		
 	}
 
 	public int getId() {

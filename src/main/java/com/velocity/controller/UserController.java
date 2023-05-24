@@ -2,7 +2,11 @@ package com.velocity.controller;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +35,8 @@ import com.velocity.model.User;
 import com.velocity.model.UserAddress;
 
 import com.velocity.model.UserLogin;
-
+import com.velocity.repository.ProductRepository;
+import com.velocity.repository.UserRepository;
 import com.velocity.model.UserDetails;
 import com.velocity.service.BankAccountService;
 import com.velocity.service.BillService;
@@ -53,9 +58,6 @@ import com.velocity.service.UserDetailsService;
 
 import com.velocity.service.UserLoginService;
 
-
-
-
 import com.velocity.service.UserService;
 
 @RestController
@@ -66,7 +68,7 @@ public class UserController {
 	@Autowired
 	private RewardService rewardService;
 	@Autowired
-	private OrderService OrderService;
+	private OrderService orderService;
 	@Autowired
 	private ReimbursementService reimbursementService;
 	@Autowired
@@ -98,13 +100,21 @@ public class UserController {
 
 	@Autowired
 	private UserLoginService userLoginService;
-	
+
 	@Autowired
 	private ProductService productService;
 	
 	@Autowired
 	private CategaryService categaryService;
 
+	@Autowired
+	private ProductRepository productRepository;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	// create object of logger
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	// it is a post mettohd
 	@PostMapping("/saverewards")
@@ -118,7 +128,7 @@ public class UserController {
 			reward.setUserId(user.getId());
 			rewardService.saveReward(reward);
 		}
-
+		
 		return ResponseEntity.ok().body(user1);
 	}
 
@@ -146,7 +156,7 @@ public class UserController {
 	@DeleteMapping("/deleteorder/{id}")
 	public void deleteOrder(@PathVariable("id") Integer id) {
 
-		OrderService.deleteOrder(id);
+		orderService.deleteOrder(id);
 
 	}
 
@@ -181,7 +191,7 @@ public class UserController {
 
 		for (Order order : orders) {
 			order.setUserid(user.getId());
-			OrderService.getOrderById(id);
+			orderService.getOrderById(id);
 		}
 		return ResponseEntity.ok().body(user);
 
@@ -195,7 +205,7 @@ public class UserController {
 
 		for (Order order : orders) {
 			order.setUserid(user.getId());
-			OrderService.saveOrderById(order);
+			orderService.saveOrderById(order);
 		}
 
 		return ResponseEntity.ok().body(user1);
@@ -212,7 +222,7 @@ public class UserController {
 			order.setQuantity(order.getQuantity());
 			order.setUserid(order.getUserid());
 
-			OrderService.updateOrder(order);
+			orderService.updateOrder(order);
 		}
 
 		return ResponseEntity.ok().body(user1);
@@ -366,11 +376,12 @@ public class UserController {
 
 		return ResponseEntity.ok().body(bills);
 	}
+
 	@PutMapping("/updateUserDetails/{id}")
-	public ResponseEntity<UserDetails> updateUserDetails(@RequestBody UserDetails userDetails){
+	public ResponseEntity<UserDetails> updateUserDetails(@RequestBody UserDetails userDetails) {
 		UserDetails userDetails1 = userDetailsService.updateUserDetails(userDetails);
-		  return ResponseEntity.ok().body(userDetails1);
-	
+		return ResponseEntity.ok().body(userDetails1);
+
 	}
 
 	@DeleteMapping("/deleteProvider/{id}")
@@ -410,6 +421,12 @@ public class UserController {
 		return ResponseEntity.ok(loginResponse);
 	}
 
+
+	@GetMapping("/getAllProductList")
+	public List<Product> getAllProduct() {
+		return (List<Product>) productRepository.findAll();
+	}
+	@DeleteMapping("/deleteUserDetails/{id}")
      public void deleteuserDetailsById(@PathVariable("id") Integer id) {
     	 userDetailsService.deleteUserDetails(id);
      }
@@ -421,26 +438,30 @@ public class UserController {
 		return ResponseEntity.ok().body(prod);
 		
 	}
+
 	@PostMapping("/saveProduct")
-	public ResponseEntity<Product> saveProduct(@RequestBody Product product){
+	public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
 		Product prod = productService.saveProductDetails(product);
-		return ResponseEntity.ok().body(prod);	
+		return ResponseEntity.ok().body(prod);
 	}
-	
+
 	@PutMapping("/updateProdect/{id}")
-	public ResponseEntity<Product> updateProduct(@RequestBody Product product){
+	public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
 		Product prod = productService.updateProductDetails(product);
-		return ResponseEntity.ok().body(prod);	
+		return ResponseEntity.ok().body(prod);
 	}
+
 	@DeleteMapping("/deleteProduct/{id}")
-	public void deleteProductById(@PathVariable("id") Integer id) {
+	public ResponseEntity<String> deleteProductById(@PathVariable("id") Integer id) {
 		productService.deleteProduct(id);
+		return new ResponseEntity<>("Product with ID " + id + " has been cancelled", HttpStatus.OK);
 	}
+
 	@GetMapping("/getUserDetails/{id}")
-	public ResponseEntity<UserDetails> getUserDetails(@PathVariable("id") Integer id){
+	public ResponseEntity<UserDetails> getUserDetails(@PathVariable("id") Integer id) {
 		UserDetails user = userDetailsService.getUserDetails(id);
 		return ResponseEntity.ok().body(user);
-		
+
 	}
 	
 	@GetMapping("/getCategary/{id}")
@@ -499,5 +520,41 @@ public class UserController {
 	}
 
 
+	@GetMapping("/getAllUsersList")
+	public List<User> getAllUserList() {
+		return (List<User>) userRepository.findAll();
+	}
+
+	@PostMapping("/addOrderDetails")
+	public Order addOrderDetails(@RequestBody Order order) {
+		Order order1 = orderService.addOrderDetails(order);
+		return order1;
+	}
+
+	@PutMapping("/updateOrderDetails/{id}")
+	public Order updateOrderDetails(@RequestBody Order order) {
+		Order order1 = orderService.updateOrderDetails(order);
+		return order1;
+	}
+
+	@GetMapping("/getOrderDetails/{id}")
+	public Optional<Order> getOrderDetails(@PathVariable("id") Integer id) {
+		return orderService.getOrderDetailsById(id);
+	}
+
+	@PutMapping("/updateCurrencyConvertor/{id}")
+	public CurrencyConvert updateCurrencyConvertor(@RequestBody CurrencyConvert currencyConvert) {
+		return currencyConvertService.updateDetails(currencyConvert);
+	}
+
+	@GetMapping("/getCurrencyConvertor/{id}")
+	public Optional<CurrencyConvert> getCurrencyConvertorById(@PathVariable("id") Long id) {
+		return currencyConvertService.getCurrencyConvertorDetails(id);
+	}
+
+	@DeleteMapping("/deleteCurrencyConvertor/{id}")
+	public void deleteCurrencyConvertorDetails(@PathVariable("id") Long id) {
+		currencyConvertService.deleteCurrencyConvertorDetails(id);
+	}
 
 }

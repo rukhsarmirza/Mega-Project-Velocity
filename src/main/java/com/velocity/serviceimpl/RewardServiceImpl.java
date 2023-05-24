@@ -9,6 +9,7 @@ import com.velocity.service.RewardService;
 
 @Service
 public class RewardServiceImpl implements RewardService {
+
 	@Autowired
 	private RewardRepository rewardRepository;
 
@@ -20,6 +21,7 @@ public class RewardServiceImpl implements RewardService {
 
 	@Override
 	public Reward saveReward(Reward reward) {
+
 		Reward reward1 = rewardRepository.save(reward);
 		return reward1;
 
