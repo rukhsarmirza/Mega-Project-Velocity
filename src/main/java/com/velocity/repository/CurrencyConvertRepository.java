@@ -8,4 +8,5 @@ import com.velocity.model.CurrencyConvert;
 @Repository
 public interface CurrencyConvertRepository extends JpaRepository<CurrencyConvert, Long> {
 
+	public CurrencyConvert findById(Integer id);
 }

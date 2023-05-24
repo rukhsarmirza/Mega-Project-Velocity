@@ -40,4 +40,21 @@ public class OrderIServiceImpl implements OrderService {
 
 	}
 
+	@Override
+	public Order addOrderDetails(Order order) {
+		return orderRepository.save(order);
+
+	}
+
+	@Override
+	public Order updateOrderDetails(Order order) {
+		return orderRepository.save(order);
+	}
+
+	@Override
+	public Optional<Order> getOrderDetailsById(Integer id) {
+		return orderRepository.findById(id);
+
+	}
+
 }

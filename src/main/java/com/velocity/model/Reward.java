@@ -40,4 +40,9 @@ public class Reward {
 		this.userId = userId;
 	}
 
+	@Override
+	public String toString() {
+		return "Reward [id=" + id + ", point=" + point + ", userId=" + userId + "]";
+	}
+
 }
