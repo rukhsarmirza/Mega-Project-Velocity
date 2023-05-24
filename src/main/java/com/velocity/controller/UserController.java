@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.velocity.model.BankAccount;
 import com.velocity.model.Bill;
 import com.velocity.model.Cart;
+import com.velocity.model.Categary;
 import com.velocity.model.CurrencyConvert;
 import com.velocity.model.Feedback;
 import com.velocity.model.LoginDTO;
@@ -36,6 +37,7 @@ import com.velocity.service.BankAccountService;
 import com.velocity.service.BillService;
 import com.velocity.service.CartAmountService;
 import com.velocity.service.CartService;
+import com.velocity.service.CategaryService;
 import com.velocity.service.CurrencyConvertService;
 import com.velocity.service.FeedbackService;
 import com.velocity.service.MultipleAddressService;
@@ -99,6 +101,9 @@ public class UserController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CategaryService categaryService;
 
 
 	// it is a post mettohd
@@ -432,11 +437,61 @@ public class UserController {
 		return ResponseEntity.ok().body(user);
 		
 	}
+	
+	@GetMapping("/getCategary/{id}")
+	public ResponseEntity<Categary> getCategary(@PathVariable("id") Integer id) {
 
+		Categary categary = categaryService.getCategaryById(id);
+		List<Product> products = categary.getProductList();		
+		for (Product product : products) {
+			product.setCategaryId(categary.getId());
+			productService.getProductDetails(id);
+			
+		}
+		return ResponseEntity.ok().body(categary);
+
+	}
+	
+	@PostMapping("/saveCategary")
+	public ResponseEntity<Categary> saveCategary(@RequestBody Categary categary) {
+		Categary categary1 = categaryService.saveCategary(categary);
+		List<Product> products = categary.getProductList();		
+		
+
+		for (Product product : products) {
+			product.setCategaryId(categary.getId());
+			productService.saveProductDetails(product);
+		}
+		return ResponseEntity.ok().body(categary1);
+	}
+	
+	@DeleteMapping("/deleteCategary/{id}")
+	public void deleteCategaryById(@PathVariable("id") Integer id) {
+		categaryService.deleteCategary(id);
+	}
+	
+	@PutMapping("/updateCategary/{id}")
+	public ResponseEntity<Categary> updateCategary(@RequestBody Categary categary) {
+		Categary categary1 = categaryService.updateCategary(categary);
+		List<Product> products = categary.getProductList();	
+
+		for (Product product : products) {
+			product.setProductName(product.getProductName());
+			product.setCategary(product.getCategary());
+			product.setDescription(product.getDescription());
+			product.setAmonut(product.getAmonut());
+			product.setCategaryId(product.getCategaryId());
+			productService.updateProductDetails(product);
+		}
+
+		return ResponseEntity.ok().body(categary1);
+
+	}
 	@PostMapping("/saveUserDetails")
 	public ResponseEntity<UserDetails> saveUserDetails(@RequestBody UserDetails userDetails) {
 		UserDetails userDetail = userDetailsService.saveUserDetails(userDetails);
 		return ResponseEntity.ok().body(userDetail);
 	}
+
 
 }
