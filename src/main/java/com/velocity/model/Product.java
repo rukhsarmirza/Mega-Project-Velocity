@@ -15,8 +15,12 @@ public class Product {
 	private int id;
 	private String productName;
 	private String description;
-	private String category;
 	private String amount;
+	private String categary;
+	private int categaryId;
+	
+	
+	
 
 	public int getId() {
 		return id;
@@ -42,20 +46,25 @@ public class Product {
 		this.description = description;
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategary(String category) {
-		this.category = category;
-	}
-
 	public String getAmonut() {
 		return amount;
 	}
 
 	public void setAmonut(String amount) {
 		this.amount = amount;
+	}
+	public String getCategary() {
+		return categary;
+	}
+
+	public void setCategary(String categary) {
+		this.categary = categary;
+	}
+	public int getCategaryId() {
+		return categaryId;
+	}
+	public void setCategaryId(int categaryId) {
+		this.categaryId = categaryId;
 	}
 
 }
