@@ -409,6 +409,11 @@ public class UserController {
 
 		return ResponseEntity.ok(loginResponse);
 	}
+
+     public void deleteuserDetailsById(@PathVariable("id") Integer id) {
+    	 userDetailsService.deleteUserDetails(id);
+     }
+
 	
 	@GetMapping("/getProduct/{id}")
 	public ResponseEntity<Product> getProduct(@PathVariable("id") Integer id){
@@ -492,6 +497,7 @@ public class UserController {
 		UserDetails userDetail = userDetailsService.saveUserDetails(userDetails);
 		return ResponseEntity.ok().body(userDetail);
 	}
+
 
 
 }

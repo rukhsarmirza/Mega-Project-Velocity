@@ -26,10 +26,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Override
+
+	public void deleteUserDetails(Integer id) {
+		userDetailsRepository.deleteById(id);
+		
+	}
+
+
 	public UserDetails getUserDetails(Integer id) {
 		UserDetails user = userDetailsRepository.findById(id);
 		return user;
 	}
 
 	
+
 }
