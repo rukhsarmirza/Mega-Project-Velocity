@@ -17,6 +17,8 @@ public class Product {
 	private String description;
 	private String categary;
 	private String amonut;
+	private int categaryId;
+	
 	public int getId() {
 		return id;
 	}
@@ -46,6 +48,12 @@ public class Product {
 	}
 	public void setAmonut(String amonut) {
 		this.amonut = amonut;
+	}
+	public int getCategaryId() {
+		return categaryId;
+	}
+	public void setCategaryId(int categaryId) {
+		this.categaryId = categaryId;
 	}
 	
 	
