@@ -25,4 +25,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		 
 	}
 
+	@Override
+	public void deleteUserDetails(Integer id) {
+		userDetailsRepository.deleteById(id);
+		
+	}
+
 }

@@ -393,5 +393,7 @@ public class UserController {
 
 		return ResponseEntity.ok(loginResponse);
 	}
-
+     public void deleteuserDetailsById(@PathVariable("id") Integer id) {
+    	 userDetailsService.deleteUserDetails(id);
+     }
 }
